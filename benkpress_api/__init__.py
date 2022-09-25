@@ -29,29 +29,51 @@ from typing import List
 from dataclasses import dataclass
 from sklearn.pipeline import Pipeline
 
-
 class PagePreprocessor:
-    def _inject_caller(self, supervisor):
-        """Used by the caller to inject itself."""
-        self._supervisor = supervisor
+    """
+    Describes the preprocessor stage of a PDFClassiferContext.
+    """
 
     @abstractmethod
     def transform(self, pagetext: str) -> List[str]:
-        pass
+        """
+        Transforms the text of PDF page into a format which can be used as training
+        data by the classification pipeline.
 
+        Parameters
+        ----------
+        pagetext : The text of the current PDF page being processed.
+
+        Returns
+        -------
+        A list of strings each corresponding to a datapoint in the training data.
+
+        """
+
+    @abstractmethod
     def accepts_page(self, pagetext: str) -> bool:
-        return True
+        """
+        Determines whether this PDF page should be transformed or not.
 
-    def begin_pdf(self) -> None:
-        pass
+        Parameters
+        ----------
+        pagetext : The text of the current PDF page being processed.
 
-    def about_to_end_pdf(self) -> None:
-        pass
+        Returns
+        -------
+        Whether this page should be transformed or not.
+        """
 
-    def end_pdf(self) -> None:
-        pass
 
 @dataclass
 class PDFClassifierContext:
+    """
+    Describes a context in which a PDF classifier can operate. The preprocessor does
+    any preprocessing needed for the page data to be used in an sklearn compatible
+    pipeline. The pipeline parameter is the aforementioned sklearn compatible pipeline.
+    """
+
     preprocessor: PagePreprocessor
     pipeline: Pipeline
+
+
