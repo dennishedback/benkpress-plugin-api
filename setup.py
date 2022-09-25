@@ -1,13 +1,13 @@
 #! /usr/bin/env python3
 
-"""Installation script for this package."""
+"""Installation script for this benkpress_api."""
 
 import os
 
 from setuptools import setup
 
 setup(
-    name="package",
+    name="benkpress_api",
     version="0.1.0",
     description="<one line to give the program's name and a brief idea of what it does.>",
     long_description=open(
@@ -15,6 +15,6 @@ setup(
     ).read(),
     long_description_content_type="text/markdown",
     author="Dennis Hedback",
-    packages=["package"],
+    packages=["benkpress_api"],
     install_requires=[],
 )
