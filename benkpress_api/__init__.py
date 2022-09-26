@@ -67,8 +67,8 @@ class PagePreprocessor:
 class PassthroughPagePreprocessor(PagePreprocessor):
     """
     Describes a generic page preprocessor which accepts all pages and passes through
-    the input as output. Can be used for page classification for trivial cases without
-    any need to
+    the input as output. Can be used for page classification for trivial cases when there
+    is no need to transform the text.
     """
 
     def transform(self, pagetext: str) -> List[str]:

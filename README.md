@@ -60,8 +60,8 @@ pipeline. The pipeline parameter is the aforementioned sklearn compatible pipeli
 
 `PassthroughPagePreprocessor()`
 :   Describes a generic page preprocessor which accepts all pages and passes through
-the input as output. Can be used for page classification for trivial cases without
-any need to
+the input as output. Can be used for page classification for trivial cases when there
+is no need to transform the text.
 
     ### Ancestors (in MRO)
 
