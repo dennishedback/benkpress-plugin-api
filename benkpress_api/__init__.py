@@ -64,6 +64,19 @@ class PagePreprocessor:
         Whether this page should be transformed or not.
         """
 
+class PassthroughPagePreprocessor(PagePreprocessor):
+    """
+    Describes a generic page preprocessor which accepts all pages and passes through
+    the input as output. Can be used for page classification for trivial cases without
+    any need to
+    """
+
+    def transform(self, pagetext: str) -> List[str]:
+        return [pagetext]
+
+    def accepts_page(self, pagetext: str) -> bool:
+        return True
+
 
 @dataclass
 class PDFClassifierContext:
