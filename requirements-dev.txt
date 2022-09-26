@@ -10,7 +10,6 @@ flake8-isort
 flake8-quotes
 flake8-string-format
 mypy
-pdoc3
 pre-commit
 pytest
 tox
