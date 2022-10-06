@@ -24,17 +24,18 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from abc import abstractmethod
-from typing import List
+#from abc import abstractmethod
+from typing import List, Protocol
 from dataclasses import dataclass
 from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import GaussianNB
 
-class PagePreprocessor:
+class PagePreprocessor(Protocol):
     """
     Describes the preprocessor stage of a PDFClassiferContext.
     """
 
-    @abstractmethod
     def transform(self, pagetext: str) -> List[str]:
         """
         Transforms the text of PDF page into a format which can be used as training
@@ -50,7 +51,6 @@ class PagePreprocessor:
 
         """
 
-    @abstractmethod
     def accepts_page(self, pagetext: str) -> bool:
         """
         Determines whether this PDF page should be transformed or not.
@@ -64,7 +64,7 @@ class PagePreprocessor:
         Whether this page should be transformed or not.
         """
 
-class PassthroughPagePreprocessor(PagePreprocessor):
+class PassthroughPagePreprocessor:
     """
     Describes a generic page preprocessor which accepts all pages and passes through
     the input as output. Can be used for page classification for trivial cases when there
@@ -89,4 +89,18 @@ class PDFClassifierContext:
     preprocessor: PagePreprocessor
     pipeline: Pipeline
 
+def get_default_context():
+    """
+    Get a not so complex default context.
 
+    Returns
+    -------
+
+    """
+    return PDFClassifierContext(
+        PassthroughPagePreprocessor(),
+        Pipeline([
+            ("Default vectorizer", CountVectorizer()),
+            ("Default classifier", GaussianNB()),
+        ])
+    )
