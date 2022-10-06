@@ -26,9 +26,11 @@
 
 from dataclasses import dataclass
 from importlib.metadata import entry_points, EntryPoint
-from typing import List, Protocol
+from typing import List, Dict, Protocol
 
 from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.dummy import DummyClassifier
 
 
 class PagePreprocessor(Protocol):
@@ -79,6 +81,7 @@ class PassthroughPagePreprocessor:
         return True
 
 
+
 @dataclass
 class PDFClassifierContext:
     """
@@ -90,9 +93,8 @@ class PDFClassifierContext:
     preprocessor: PagePreprocessor
     pipeline: Pipeline
 
-
-_PREPROCESSORS = {x.name: x for x in entry_points()["benkpress_plugins.preprocessors"]}
-_PIPELINES = {x.name: x for x in entry_points()["benkpress_plugins.pipelines"]}
+_PREPROCESSORS: Dict[str, EntryPoint] = {}
+_PIPELINES: Dict[str, EntryPoint] = {}
 
 
 def get_available_preprocessors() -> List[str]:
