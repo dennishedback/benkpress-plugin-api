@@ -24,12 +24,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#from abc import abstractmethod
-from typing import List, Protocol
 from dataclasses import dataclass
+from importlib.metadata import entry_points, EntryPoint
+from typing import List, Protocol
+
 from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import GaussianNB
+
 
 class PagePreprocessor(Protocol):
     """
@@ -64,6 +64,7 @@ class PagePreprocessor(Protocol):
         Whether this page should be transformed or not.
         """
 
+
 class PassthroughPagePreprocessor:
     """
     Describes a generic page preprocessor which accepts all pages and passes through
@@ -89,18 +90,58 @@ class PDFClassifierContext:
     preprocessor: PagePreprocessor
     pipeline: Pipeline
 
-def get_default_context():
+
+_PREPROCESSORS = {x.name: x for x in entry_points()["benkpress_plugins.preprocessors"]}
+_PIPELINES = {x.name: x for x in entry_points()["benkpress_plugins.pipelines"]}
+
+
+def get_available_preprocessors() -> List[str]:
     """
-    Get a not so complex default context.
+    Get the names of all installed preprocessors.
 
     Returns
     -------
-
+    List containing the names of all available preprocessor plugins.
     """
-    return PDFClassifierContext(
-        PassthroughPagePreprocessor(),
-        Pipeline([
-            ("Default vectorizer", CountVectorizer()),
-            ("Default classifier", GaussianNB()),
-        ])
-    )
+    return [x for x in _PREPROCESSORS]
+
+
+def get_available_pipelines() -> List[str]:
+    """
+    Get the names of all installed pipelines.
+
+    Returns
+    -------
+    List containing the names of all available pipeline plugins.
+    """
+    return [x for x in _PIPELINES]
+
+
+def get_preprocessor_entry_point(name: str) -> EntryPoint:
+    """
+    Get preprocessor entry point.
+
+    Parameters
+    ----------
+    name : The name of the installed preprocessor.
+
+    Returns
+    -------
+    EntryPoint used to load the preprocessor plugin.
+    """
+    return _PREPROCESSORS[name]
+
+
+def get_pipeline_entry_point(name: str) -> EntryPoint:
+    """
+    Get pipeline entry point.
+
+    Parameters
+    ----------
+    name : The name of the installed pipeline.
+
+    Returns
+    -------
+    EntryPoint used to load the pipeline plugin.
+    """
+    return _PIPELINES[name]
