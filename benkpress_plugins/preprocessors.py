@@ -24,5 +24,51 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from typing import Protocol, List
+
+class Preprocessor(Protocol):
+    """
+    Describes the preprocessor stage of a PDFClassiferContext.
+    """
+
+    def transform(self, pagetext: str) -> List[str]:
+        """
+        Transforms the text of PDF page into a format which can be used as training
+        data by the classification pipeline.
+
+        Parameters
+        ----------
+        pagetext : The text of the current PDF page being processed.
+
+        Returns
+        -------
+        A list of strings each corresponding to a datapoint in the training data.
+
+        """
+
+    def accepts_page(self, pagetext: str) -> bool:
+        """
+        Determines whether this PDF page should be transformed or not.
+
+        Parameters
+        ----------
+        pagetext : The text of the current PDF page being processed.
+
+        Returns
+        -------
+        Whether this page should be transformed or not.
+        """
 
 
+class PassthroughPreprocessor:
+    """
+    Describes a generic page preprocessor which accepts all pages and passes through
+    the input as output. Can be used for page classification for trivial cases when there
+    is no need to transform the text.
+    """
+
+    def transform(self, pagetext: str) -> List[str]:
+        return [pagetext]
+
+    def accepts_page(self, pagetext: str) -> bool:
+        return True

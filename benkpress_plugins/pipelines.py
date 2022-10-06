@@ -24,5 +24,12 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.dummy import DummyClassifier
+from sklearn.pipeline import Pipeline
 
-
+def DummyPipeline():
+    return Pipeline([
+        ("Vectorizer", CountVectorizer()),
+        ("Classifier", DummyClassifier()),
+    ])
