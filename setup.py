@@ -18,7 +18,7 @@ setup(
     packages=["benkpress_plugins"],
     install_requires=["sklearn"],
     entry_points={
-        "benkpress_plugins.preprocessors": ["Passthrough=benkpress_plugins.preprocessors.PassthroughPagePreprocessor"],
+        "benkpress_plugins.preprocessors": ["Passthrough=benkpress_plugins.preprocessors.PassthroughPreprocessor"],
         "benkpress_plugins.pipelines": ["Dummy=benkpress_plugins.pipelines.DummyPipeline"]
     }
 )
