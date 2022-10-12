@@ -28,7 +28,8 @@ from typing import Protocol, List
 
 class Preprocessor(Protocol):
     """
-    Describes the preprocessor stage of a PDFClassiferContext.
+    Describes a preprocessor which transforms PDF page text into data which can be
+    used in an sklearn compatible pipeline.
     """
 
     def transform(self, pagetext: str) -> List[str]:

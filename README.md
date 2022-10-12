@@ -1,37 +1,61 @@
-# benkpress-api
+# benkpress-plugin-api
 
-Small API to simplify the use of sklearn pipelines whose
+Small plugin API to simplify the use of sklearn pipelines whose
 training data have been built with the help of
 [benkpress](https://github.com/dennishedback/benkpress),
 without having to pull in all of benkpress as a dependency.
-benkpress-api also uses a more permissive (BSD 2-clause) license
+benkpress-plugin-api also uses a more permissive (BSD 2-clause) license
 than benkpress proper does (GPLv3).
 
 ## API Reference
 
 Since the API is small, the full API reference is included below.
 
-### Classes
+Module benkpress_plugins
+========================
 
-`PDFClassifierContext(preprocessor: benkpress_api.PagePreprocessor, pipeline: sklearn.pipeline.Pipeline)`
-:   Describes a context in which a PDF classifier can operate. The preprocessor does
-any preprocessing needed for the page data to be used in an sklearn compatible
-pipeline. The pipeline parameter is the aforementioned sklearn compatible pipeline.
+Sub-modules
+-----------
+* benkpress_plugins.pipelines
+* benkpress_plugins.preprocessors
+  
+Module benkpress_plugins.pipelines
+==================================
 
-    ### Class variables
+Functions
+---------
 
-    `pipeline: sklearn.pipeline.Pipeline`
+    
+`DummyPipeline()`
+:   Returns a dummy classifier pipeline to use as a baseline.
+
+Module benkpress_plugins.preprocessors
+======================================
+
+Classes
+-------
+
+`PassthroughPreprocessor()`
+:   Describes a generic page preprocessor which accepts all pages and passes through
+the input as output. Can be used for page classification for trivial cases when there
+is no need to transform the text.
+
+    ### Methods
+
+    `accepts_page(self, pagetext: str) ‑> bool`
     :
 
-    `preprocessor: benkpress_api.PagePreprocessor`
+    `transform(self, pagetext: str) ‑> List[str]`
     :
 
-`PagePreprocessor()`
-:   Describes the preprocessor stage of a PDFClassiferContext.
+`Preprocessor(*args, **kwargs)`
+:   Describes a preprocessor which transforms PDF page text into data which can be 
+    used in an sklearn compatible pipeline.
 
-    ### Descendants
+    ### Ancestors (in MRO)
 
-    * benkpress_api.PassthroughPagePreprocessor
+    * typing.Protocol
+    * typing.Generic
 
     ### Methods
 
@@ -57,12 +81,3 @@ pipeline. The pipeline parameter is the aforementioned sklearn compatible pipeli
         Returns
         -------
         A list of strings each corresponding to a datapoint in the training data.
-
-`PassthroughPagePreprocessor()`
-:   Describes a generic page preprocessor which accepts all pages and passes through
-the input as output. Can be used for page classification for trivial cases when there
-is no need to transform the text.
-
-    ### Ancestors (in MRO)
-
-    * benkpress_api.PagePreprocessor
