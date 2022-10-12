@@ -29,6 +29,7 @@ from sklearn.dummy import DummyClassifier
 from sklearn.pipeline import Pipeline
 
 def DummyPipeline():
+    """Returns a dummy classifier pipeline to use as a baseline."""
     return Pipeline([
         ("Vectorizer", CountVectorizer()),
         ("Classifier", DummyClassifier()),
