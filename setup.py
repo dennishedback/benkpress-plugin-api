@@ -7,7 +7,7 @@ import os
 from setuptools import setup
 
 setup(
-    name="benkpress-plugins",
+    name="benkpress-plugin-api",
     version="0.1.0",
     description="Plugin API for interoperating with benkpress.",
     long_description=open(
