@@ -8,7 +8,7 @@ from setuptools import setup
 
 setup(
     name="benkpress-plugin-api",
-    version="0.1.0",
+    version="0.1.1",
     description="Plugin API for interoperating with benkpress.",
     long_description=open(
         os.path.join(os.path.abspath(os.path.dirname(__file__)), "README.md")
