@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Dennis Hedback",
     packages=["benkpress_plugins"],
-    install_requires=["sklearn"],
+    install_requires=["scikit-learn"],
     entry_points={
         "benkpress_plugins.preprocessors": ["Passthrough=benkpress_plugins.preprocessors:PassthroughPreprocessor"],
         "benkpress_plugins.pipelines": ["Dummy=benkpress_plugins.pipelines:DummyPipeline"]
